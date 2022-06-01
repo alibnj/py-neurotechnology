@@ -171,7 +171,7 @@ def find_components(peak_locs, plot_path, subject_id, n_lm=4, n_lp=4, n_rm=4, n_
     
     
     
-def find_davep_score(all_vs, centers, resp_window_half=75, cs_start=300, cs_end=600, method='normal'):
+def compute_davep_score(all_vs, centers, resp_window_half=75, cs_start=300, cs_end=600, method='normal'):
     '''
     Author: Ali Banijamali (banijamali.s@northeastern.edu)
     
