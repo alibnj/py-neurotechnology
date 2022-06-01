@@ -81,12 +81,12 @@ def find_trial_peaks(all_vs, plot_path, subject_id, plot_size=(15,4), show_plots
 
 
 
-def find_components(peak_loc, plot_path, subject_id, n_lm=4, n_lp=4, n_rm=4, n_rp=4, cl_search='half', plot_size=(15,4), show_plots=True):
+def find_components(peak_locs, plot_path, subject_id, n_lm=4, n_lp=4, n_rm=4, n_rp=4, cl_search='half', plot_size=(15,4), show_plots=True):
     '''
     Author: Ali Banijamali (banijamali.s@northeastern.edu)
     
     Input:
-    peak_loc must be a list containing 4 dataframes in this order:
+    peak_locs must be a list containing 4 dataframes in this order:
     0: Left Macular Peaks (min, ms, microV)
     1: Left Peripheral Peaks (min, ms, microV)
     2: Right Macular Peaks (min, ms, microV)
@@ -136,14 +136,14 @@ def find_components(peak_loc, plot_path, subject_id, n_lm=4, n_lp=4, n_rm=4, n_r
     plot_names = ['Left Macular', 'Left Peripheral', 'Right Macular', 'Right Peripheral']
     
     if cl_search == 'half':
-        cl_start = int(peak_loc[0].shape[0]/2) # Start clustering from half of the experiment
+        cl_start = int(peak_locs[0].shape[0]/2) # Start clustering from half of the experiment
     elif cl_search == 'beginning':
         cl_start = 0 # Start clustering from the start of the experiment
     
     n_clusters = [n_lm, n_lp, n_rm, n_rp]
     # Clustering the peaks using GMM with diagonal clusters:
     for i in range(4):
-        A = np.array(pd.concat([peak_loc[i].iloc[cl_start:, 0], peak_loc[i].iloc[cl_start:, 1]], axis=1))
+        A = np.array(pd.concat([peak_locs[i].iloc[cl_start:, 0], peak_locs[i].iloc[cl_start:, 1]], axis=1))
         gmm = GMM(n_components=n_clusters[i], covariance_type='diag', init_params='kmeans').fit(A)
         labels = gmm.predict(A)
         centers_i = np.zeros(n_clusters[i])
