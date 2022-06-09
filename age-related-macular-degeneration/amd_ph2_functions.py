@@ -139,6 +139,8 @@ def find_components(peak_locs, plot_path, subject_id, n_lm=4, n_lp=4, n_rm=4, n_
         cl_start = int(peak_locs[0].shape[0]/2) # Start clustering from half of the experiment
     elif cl_search == 'beginning':
         cl_start = 0 # Start clustering from the start of the experiment
+    else:
+        raise ValueError("cl_search must be in ['half', 'beginning']")
     
     n_clusters = [n_lm, n_lp, n_rm, n_rp]
     # Clustering the peaks using GMM with diagonal clusters:
