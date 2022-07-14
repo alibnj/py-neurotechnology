@@ -220,3 +220,24 @@ def phase_align(reference, target, roi, res=100):
 
 	# # plt.plot(shifts,cc,'k-'); plt.show()
 	# return shifts[np.argmax(cc.real)]
+	
+def highres(y,kind='cubic',res=100):
+	'''
+	Author:
+        https://github.com/pearsonkyle/Signal-Alignment/blob/master/signal_alignment.py
+	
+	Interpolate data onto a higher resolution grid by a factor of *res*
+	Args:
+		y (1d array/list): signal to be interpolated
+		kind (str): order of interpolation (see docs for scipy.interpolate.interp1d)
+		res (int): factor to increase resolution of data via linear interpolation
+
+	Returns:
+		shift (float): offset between target and reference signal
+	'''
+	y = np.array(y)
+	x = np.arange(0, y.shape[0])
+	f = interp1d(x, y,kind='cubic')
+	xnew = np.linspace(0, x.shape[0]-1, x.shape[0]*res)
+	ynew = f(xnew)
+	return xnew,ynew
