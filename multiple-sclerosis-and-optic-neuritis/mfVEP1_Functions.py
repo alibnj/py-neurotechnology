@@ -163,6 +163,8 @@ def w_ave_and_snr(signal, mode='snr_weighted', snr_sig_win=[45, 150], snr_noise_
 
 def phase_align(reference, target, roi, res=100):
 	'''
+    Author:
+    https://github.com/pearsonkyle/Signal-Alignment/blob/master/signal_alignment.py
     
 	Cross-correlate data within region of interest at a precision of 1./res
 	if data is cross-correlated at native resolution (i.e. res=1) this function
@@ -200,21 +202,21 @@ def phase_align(reference, target, roi, res=100):
 	# often found this method to be more accurate then the way below
 	return np.argmax(cc)*mod*(1./res)
 
-	# interpolate data onto a higher resolution grid
-	x,r1 = highres(reference[ROI],kind='linear',res=res)
-	x,r2 = highres(target[ROI],kind='linear',res=res)
+	# # interpolate data onto a higher resolution grid
+	# x,r1 = highres(reference[ROI],kind='linear',res=res)
+	# x,r2 = highres(target[ROI],kind='linear',res=res)
 
-	# subtract off mean
-	r1 -= r1.mean()
-	r1 -= r2.mean()
+	# # subtract off mean
+	# r1 -= r1.mean()
+	# r1 -= r2.mean()
 
-	# compute the phase-only correlation function
-	product = np.fft.fft(r1) * np.fft.fft(r2).conj()
-	cc = np.fft.fftshift(np.fft.ifft(product))
+	# # compute the phase-only correlation function
+	# product = np.fft.fft(r1) * np.fft.fft(r2).conj()
+	# cc = np.fft.fftshift(np.fft.ifft(product))
 
-	# manipulate the output from np.fft
-	l = reference[ROI].shape[0]
-	shifts = np.linspace(-0.5*l,0.5*l,l*res)
+	# # manipulate the output from np.fft
+	# l = reference[ROI].shape[0]
+	# shifts = np.linspace(-0.5*l,0.5*l,l*res)
 
-	# plt.plot(shifts,cc,'k-'); plt.show()
-	return shifts[np.argmax(cc.real)]
+	# # plt.plot(shifts,cc,'k-'); plt.show()
+	# return shifts[np.argmax(cc.real)]
